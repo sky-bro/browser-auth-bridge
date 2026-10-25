@@ -1,0 +1,16 @@
+{
+  "version": 1,
+  "plugins": [
+    {
+      "name": "tjupt",
+      "description": "TJUPT search, release details and torrent metadata",
+      "path": "builtin/tjupt"
+    },
+    {
+      "name": "ttyd",
+      "description": "Example terminal client for your own ttyd deployment",
+      "path": "builtin/ttyd",
+      "originRequired": true
+    }
+  ]
+}

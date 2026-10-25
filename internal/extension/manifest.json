@@ -1,0 +1,27 @@
+{
+  "manifest_version": 3,
+  "name": "Browser Auth Bridge",
+  "version": "0.8.0",
+  "minimum_chrome_version": "105",
+  "description": "Connect local tools through browser login with user-configured site permissions.",
+  "permissions": [
+    "nativeMessaging",
+    "scripting",
+    "debugger",
+    "storage"
+  ],
+  "optional_host_permissions": [
+    "https://*/*",
+    "http://localhost/*",
+    "http://127.0.0.1/*",
+    "http://[::1]/*"
+  ],
+  "background": {
+    "service_worker": "background.js"
+  },
+  "action": {
+    "default_popup": "bab.html",
+    "default_title": "Browser Auth Bridge"
+  },
+  "options_page": "bab.html"
+}

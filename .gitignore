@@ -1,0 +1,13 @@
+/bin/
+/dist/
+
+# User catalogs, deployment choices and credentials are not distributable.
+.local/
+.private/
+.secrets/
+*.local.json
+
+# Generated browser installation and Python caches.
+/extension/
+__pycache__/
+*.py[cod]

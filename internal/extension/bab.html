@@ -1,0 +1,93 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+ <meta charset="utf-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1">
+ <title>BAB</title>
+ <style>
+  :root{color-scheme:light;--ink:#202630;--muted:#78818e;--line:#e9ecf1;--accent:#4965d8;--green:#228362;--surface:#fff}
+  *{box-sizing:border-box}
+  html{width:480px;min-width:480px;margin:0 auto;overflow-x:auto}
+  body{width:480px;min-width:480px;margin:0;background:#f6f7fa;color:var(--ink);font:14px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC",sans-serif;-webkit-font-smoothing:antialiased}
+  button,summary,a{-webkit-tap-highlight-color:transparent}
+  button{font:inherit;cursor:pointer;border:0}
+  button:focus-visible,summary:focus-visible{outline:2px solid var(--accent);outline-offset:3px}
+  .shell{padding:20px}
+  header{display:flex;align-items:center;gap:10px;margin-bottom:18px}
+  .brand-mark{display:grid;place-items:center;width:34px;height:34px;border-radius:10px;background:var(--ink);color:#fff}
+  .brand-mark svg{width:20px;height:20px}
+  h1{margin:0;font-size:19px;letter-spacing:-.7px;font-weight:750;line-height:1.2}
+  .brand-caption{margin:2px 0 0;color:var(--muted);font-size:10px;letter-spacing:.15px}
+  .connection{margin-left:auto;display:flex;align-items:center;gap:6px;font-size:11px;color:var(--muted)}
+  .dot{width:6px;height:6px;border-radius:50%;background:#b6bec9;flex:none}
+  .connection.is-connected{color:var(--green)}
+  .connection.is-connected .dot{background:var(--green);box-shadow:0 0 0 3px #e9f3ee}
+  .icon-button{display:grid;place-items:center;width:28px;height:28px;border-radius:7px;background:transparent;color:var(--muted);font-size:18px;line-height:1}
+  .icon-button:hover{color:var(--ink);background:#e9ecf2}
+  .section-heading{display:flex;align-items:center;justify-content:space-between;margin-bottom:9px;color:var(--muted);font-size:11px}
+  .section-heading h2{margin:0;font-size:11px;font-weight:500;letter-spacing:.8px}
+  .section-heading span{font-variant-numeric:tabular-nums}
+  #sites{display:flex;flex-direction:column;gap:8px}
+  article{border:1px solid var(--line);border-radius:12px;background:var(--surface);padding:10px 12px}
+  .command-header{display:flex;align-items:center;gap:9px;margin-bottom:5px}
+  .command-icon{display:grid;place-items:center;width:24px;height:24px;border-radius:7px;background:#f0f2f7;color:#66728b;font:600 10px/1 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:-.4px}
+  strong{min-width:0;overflow-wrap:anywhere;font:600 14px/1.3 ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;letter-spacing:-.3px}
+  .badge{margin-left:auto;flex:none;font-size:11px;padding:2px 7px;border-radius:5px;line-height:1.6;color:#6d7684;background:#f1f3f6}
+  .badge.authorized{color:var(--green);background:#edf6f0}
+  .badge.pending{color:#8a6d32;background:#faf4e7}
+  .scope-row{display:flex;align-items:center;gap:7px;min-height:28px;padding-left:2px}
+  .scope-dot{width:4px;height:4px;border-radius:50%;background:#c4cbd5;flex:none}
+  .scope-dot.authorized{background:#56a281}
+  .hostname{flex:1;min-width:0;white-space:normal;overflow-wrap:anywhere;font-size:12px;color:#747e8d}
+  .scope-actions{display:flex;align-items:center;gap:5px;flex:none}
+  .open-site{font-size:14px;width:23px;height:23px;color:#a0a8b4}
+  .authorize{color:var(--accent);background:#eef1fe;border-radius:5px;padding:4px 10px;font-size:11px;line-height:1.5}
+  .authorize:hover{background:#e1e7ff}
+  .scope-menu{position:relative;line-height:1}
+  .scope-menu summary{display:grid;place-items:center;width:20px;height:23px;color:#a0a8b4;cursor:pointer;font-size:16px;list-style:none}
+  summary::-webkit-details-marker{display:none}
+  .scope-menu[open] summary{color:var(--ink)}
+  .revoke{position:absolute;right:0;top:25px;z-index:2;white-space:nowrap;padding:8px 12px;border:1px solid var(--line);border-radius:7px;background:#fff;box-shadow:0 4px 16px #20263014;color:#a04b4b;font-size:11px}
+  .unavailable .command-icon{color:#98a0ac;background:#f5f6f8}
+  .unavailable strong{color:#939ba7}
+  .unavailable .hostname{color:#a0a8b4}
+  .unavailable-note{margin:0 0 3px 35px;font-size:10px;color:#939ba7}
+  #state{margin:0 0 12px;padding:10px 12px;border:1px solid #eadfc9;border-radius:9px;background:#fffbf2;color:#8a6d32;font-size:11px}
+  #state[hidden]{display:none}
+  .empty{margin:6px 0;padding:24px 12px;text-align:center;color:var(--muted);font-size:12px}
+  footer{margin-top:16px}
+  #setup-details{border-top:1px solid var(--line);padding-top:11px}
+  #setup-details>summary{display:flex;align-items:center;justify-content:space-between;cursor:pointer;list-style:none;color:#7c8593;font-size:11px;padding:2px 0}
+  .chevron{font-size:12px;transition:transform .15s}
+  #setup-details[open] .chevron{transform:rotate(180deg)}
+  .setup-body{padding-top:8px}
+  .setup-body p{margin:0 0 7px;color:var(--muted);font-size:11px}
+  #setup{display:block;overflow-wrap:anywhere;white-space:pre-wrap;margin:0;border:1px solid var(--line);border-radius:7px;padding:9px;background:#fff;color:#606b7d;font:10px/1.65 ui-monospace,SFMono-Regular,Menlo,monospace}
+  #copy-setup{margin-top:7px;padding:5px 9px;border:1px solid var(--line);border-radius:6px;background:#fff;color:#66728b;font-size:10px}
+  .privacy{margin:12px 0 0;text-align:center;color:#a1a8b2;font-size:10px}
+  @media(prefers-reduced-motion:reduce){*{transition:none!important}}
+ .plugin-control{margin-top:8px;font-size:11px;color:var(--muted)}.plugin-control summary{cursor:pointer}.plugin-control button{margin-top:6px}
+</style>
+</head>
+<body>
+ <main class="shell">
+  <header>
+   <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="m8 5-5 7 5 7m8-14 5 7-5 7m-3-13-2 12"/></svg></span>
+   <div><h1>BAB</h1><p class="brand-caption">Browser Auth Bridge</p></div>
+   <span id="connection" class="connection" role="status"><span class="dot" aria-hidden="true"></span><span id="connection-label">连接中</span></span>
+   <button id="reconnect" class="icon-button" type="button" title="重新连接" aria-label="重新连接">↻</button>
+  </header>
+  <div class="section-heading"><h2>已注册命令</h2><span id="command-count"></span></div>
+  <p id="state" role="status" aria-live="polite" hidden></p>
+  <section id="sites" aria-label="已注册命令"></section>
+  <footer>
+   <details id="setup-details">
+    <summary>连接设置<span class="chevron" aria-hidden="true">⌄</span></summary>
+    <div class="setup-body"><p>首次使用时，在终端运行：</p><code id="setup"></code><button id="copy-setup" type="button">复制命令</button></div>
+   </details>
+   <p class="privacy">登录信息保留在浏览器内</p>
+  </footer>
+ </main>
+ <script src="bab.js"></script>
+</body>
+</html>

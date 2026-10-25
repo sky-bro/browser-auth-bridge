@@ -1,0 +1,24 @@
+{
+  "version": 1,
+  "origin": "https://terminal.example.test",
+  "pageUrl": "https://terminal.example.test/console",
+  "authorization": {
+    "url": "https://terminal.example.test/api/permission",
+    "statusField": "result",
+    "successValue": "OK",
+    "loginValue": "LOGIN_REQUIRED",
+    "accessField": "allowed",
+    "accessGranted": true
+  },
+  "socketUrl": "wss://terminal.example.test/api/terminal/stream",
+  "frame": {
+    "operationField": "action",
+    "dataField": "payload",
+    "colsField": "columns",
+    "rowsField": "lines",
+    "stdin": "input",
+    "stdout": "output",
+    "header": "metadata",
+    "resize": "window"
+  }
+}

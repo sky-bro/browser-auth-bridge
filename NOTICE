@@ -1,0 +1,11 @@
+Browser Auth Bridge
+Copyright (c) 2026 sky-bro and contributors
+Project code is licensed under the MIT License in LICENSE.
+
+Official binary distributions also include the Go standard library from the
+build toolchain. The toolchain's license is distributed as GO_LICENSE alongside
+the programs. Go source and licensing information: https://go.dev/LICENSE
+
+The external ttyd server is not distributed with this project. The optional
+bridge-ttyd reference client is project code; deploy and license your own server
+separately.

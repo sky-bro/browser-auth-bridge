@@ -1,0 +1,1 @@
+{"version":1,"site":"echo","origin":"http://127.0.0.1:8765","description":"Local fixture plugin","commands":{"title":{"description":"Get fixture title","script":"title.js","access":"read"},"whoami":{"description":"Check fixture availability","script":"whoami.js","access":"read"}}}

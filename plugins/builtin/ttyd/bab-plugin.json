@@ -1,0 +1,45 @@
+{
+  "version": 1,
+  "site": "ttyd",
+  "origin": "https://terminal.example.test",
+  "description": "ttyd terminal example",
+  "delegate": {
+    "executable": "bridge-ttyd",
+    "nativeHost": "org.browserauthbridge.ttyd",
+    "originEnv": "BRIDGE_TTYD_ORIGIN"
+  },
+  "commands": {},
+  "completion": {
+    "description": "ttyd terminal example",
+    "commands": {
+      "shell": {
+        "description": "Open an interactive terminal"
+      },
+      "doctor": {
+        "description": "Check local configuration"
+      },
+      "exec": {
+        "description": "Execute a terminal command",
+        "options": [
+          {
+            "name": "timeout"
+          }
+        ],
+        "positional": [
+          {
+            "name": "command"
+          }
+        ]
+      }
+    }
+  },
+  "extension": {
+    "files": [
+      "browser/ttyd.js"
+    ],
+    "ptyAdapter": "ttyd",
+    "ptyScripts": [
+      "browser/ttyd.js"
+    ]
+  }
+}

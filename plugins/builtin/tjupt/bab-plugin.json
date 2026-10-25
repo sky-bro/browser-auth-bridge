@@ -1,0 +1,73 @@
+{
+  "version": 1,
+  "site": "tjupt",
+  "origin": "https://tjupt.org",
+  "description": "TJUPT media search and torrent metadata",
+  "commands": {
+    "whoami": {
+      "description": "Check TJUPT login without exporting credentials",
+      "script": "whoami.js",
+      "access": "read"
+    },
+    "search": {
+      "description": "Search complete TJUPT release candidates",
+      "script": "search.js",
+      "access": "read",
+      "positional": [
+        {
+          "name": "query",
+          "required": true
+        }
+      ],
+      "options": [
+        {
+          "name": "limit",
+          "default": "20"
+        },
+        {
+          "name": "sort",
+          "default": "seeders",
+          "choices": [
+            "seeders",
+            "snatched",
+            "size-asc",
+            "date-desc"
+          ]
+        },
+        {
+          "name": "category",
+          "default": "all",
+          "choices": [
+            "all",
+            "movie",
+            "tv",
+            "documentary"
+          ]
+        }
+      ]
+    },
+    "details": {
+      "description": "Read release title and description",
+      "script": "details.js",
+      "access": "read",
+      "positional": [
+        {
+          "name": "id",
+          "required": true
+        }
+      ]
+    },
+    "torrent": {
+      "description": "Fetch private torrent metadata into a local mode-0600 file",
+      "script": "torrent.js",
+      "access": "read",
+      "artifact": true,
+      "positional": [
+        {
+          "name": "id",
+          "required": true
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,17 @@
+{
+  "providers": [
+    {
+      "id": "ttyd",
+      "origin": "https://terminal.example.test",
+      "nativeHost": "org.browserauthbridge.ttyd",
+      "ptyAdapter": "ttyd",
+      "ptyScripts": [
+        "adapters/ttyd.js"
+      ],
+      "editableOrigin": true
+    }
+  ],
+  "assets": {
+    "adapters/ttyd.js": "examples/plugins/ttyd/browser/ttyd.js"
+  }
+}
