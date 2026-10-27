@@ -84,7 +84,7 @@ for a missing or broken Native Host; the user can reconnect from the popup.
 The terminal contract carries UTF-8 terminal text, not arbitrary binary stdout.
 Consumer-side writers bound their own buffering, but this does not establish
 browser WebSocket/Native Messaging receive-credit flow control. Review the
-[ttyd reference limitations](examples/ttyd/README.md) for command cancellation,
+[ttyd reference limitations](plugins/builtin/ttyd/DEVELOPMENT.md#terminal-behavior-and-limits) for command cancellation,
 timeouts and backpressure.
 
 ## Reporting a vulnerability

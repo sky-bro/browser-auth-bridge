@@ -96,8 +96,8 @@ pushes run checks and do not create a release.
 
 macOS page-script and ttyd browser paths were manually exercised on an existing
 installation. Fresh isolated CLI installation, Go 1.24/1.26 tests, race checks and
-Linux cross-compilation pass. Linux and macOS jobs are configured in GitHub CI;
-the first hosted run and actual binary upload still require a public push/tag.
+Linux cross-compilation pass. GitHub CI runs these checks on Linux and macOS.
+Binary publication and the hosted installer must also be verified for each release.
 A wholly fresh Chrome profile and Linux Chrome/Native Messaging installation
 have not been manually verified. Windows, binary-safe terminal output, durable
 session recovery and automatic replay are not supported. No independent security

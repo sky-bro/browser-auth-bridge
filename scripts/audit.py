@@ -5,8 +5,8 @@ import re
 import subprocess
 from source_files import source_files
 root = Path(__file__).resolve().parent.parent
-allowed = {'bridge', 'nativehost', 'pool', 'internal', 'testdata', 'cmd', 'scripts', 'examples', '.github', 'commandstream', 'plugins'}
-files = {'README.md', 'SECURITY.md', 'Makefile', 'go.mod', '.gitignore', 'LICENSE', 'NOTICE', 'PUBLICATION.md', 'VERSION', 'install.sh', '.gitmodules'}
+allowed = {'bridge', 'nativehost', 'pool', 'internal', 'testdata', 'cmd', 'scripts', 'examples', '.github', 'commandstream', 'plugins', 'docs'}
+files = {'README.md', 'README.zh-CN.md', 'SECURITY.md', 'Makefile', 'go.mod', '.gitignore', 'LICENSE', 'NOTICE', 'PUBLICATION.md', 'VERSION', 'install.sh', '.gitmodules'}
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--deny-patterns', type=Path, help='private operator regex patterns, one per line; never packaged by default')
 args = parser.parse_args()

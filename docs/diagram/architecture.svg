@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1510 770" role="img" aria-labelledby="title desc">
+<title id="title">Browser Auth Bridge architecture</title>
+<desc id="desc">Two plugin paths. One browser-owned login. Page scripts use the BAB Native Host; external CLIs use their own Native Hosts and the shared extension.</desc>
+<defs><pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse"><path d="M40 0H0V40" fill="none" stroke="#1e293b" stroke-width="0.5"/></pattern>
+<marker id="arrow-cyan" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto-start-reverse" markerUnits="userSpaceOnUse"><path d="M0 0L8 4L0 8Z" fill="#22d3ee"/></marker>
+<marker id="arrow-green" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto-start-reverse" markerUnits="userSpaceOnUse"><path d="M0 0L8 4L0 8Z" fill="#34d399"/></marker>
+<marker id="arrow-violet" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto-start-reverse" markerUnits="userSpaceOnUse"><path d="M0 0L8 4L0 8Z" fill="#a78bfa"/></marker>
+<marker id="arrow-amber" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto-start-reverse" markerUnits="userSpaceOnUse"><path d="M0 0L8 4L0 8Z" fill="#fbbf24"/></marker>
+<marker id="arrow-slate" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto-start-reverse" markerUnits="userSpaceOnUse"><path d="M0 0L8 4L0 8Z" fill="#94a3b8"/></marker>
+</defs>
+<style>text{font-family:"SF Mono","Cascadia Code","Noto Sans SC","PingFang SC",monospace;fill:#e2e8f0}.title{font-size:26px;font-weight:700}.subtitle{font-size:16px;fill:#94a3b8}.region{font-size:13px;letter-spacing:0.5px;fill:#fbbf24}.node{font-size:16px;font-weight:600}.detail{font-size:12px;fill:#cbd5e1}.edge{font-size:12px;fill:#94a3b8}.lane{font-size:12px;font-weight:600;fill:#34d399}.legend{font-size:14px}.note{font-size:13px;fill:#94a3b8}</style>
+<rect width="1510" height="770" fill="#0f172a"/><rect width="1510" height="770" fill="url(#grid)"/>
+<rect x="30" y="120" width="790" height="500" rx="14" fill="none" stroke="#fbbf24" stroke-opacity="0.65" stroke-dasharray="8 5"/>
+<text x="50" y="147" class="region" text-anchor="start">LOCAL TOOLS / PROCESSES</text>
+<rect x="850" y="120" width="300" height="500" rx="14" fill="none" stroke="#fbbf24" stroke-opacity="0.65" stroke-dasharray="8 5"/>
+<text x="870" y="147" class="region" text-anchor="start">SHARED CHROME EXTENSION</text>
+<rect x="1190" y="120" width="290" height="500" rx="14" fill="none" stroke="#fbbf24" stroke-opacity="0.65" stroke-dasharray="8 5"/>
+<text x="1210" y="147" class="region" text-anchor="start">SITE SERVICES</text>
+<path d="M250 350H280V250H330" fill="none" stroke="#34d399" stroke-width="1.7" marker-end="url(#arrow-green)"/>
+<path d="M280 350V440H330" fill="none" stroke="#34d399" stroke-width="1.7" marker-end="url(#arrow-green)"/>
+<path d="M520 250H630" fill="none" stroke="#fbbf24" stroke-width="1.7" marker-end="url(#arrow-amber)" marker-start="url(#arrow-amber)"/>
+<path d="M790 250H890" fill="none" stroke="#22d3ee" stroke-width="1.7" marker-end="url(#arrow-cyan)" marker-start="url(#arrow-cyan)"/>
+<path d="M1120 250H1230" fill="none" stroke="#94a3b8" stroke-width="1.7" marker-end="url(#arrow-slate)" marker-start="url(#arrow-slate)"/>
+<path d="M520 440H630" fill="none" stroke="#fbbf24" stroke-width="1.7" marker-end="url(#arrow-amber)" marker-start="url(#arrow-amber)"/>
+<path d="M790 440H890" fill="none" stroke="#22d3ee" stroke-width="1.7" marker-end="url(#arrow-cyan)" marker-start="url(#arrow-cyan)"/>
+<path d="M1120 440H1230" fill="none" stroke="#94a3b8" stroke-width="1.7" marker-end="url(#arrow-slate)" marker-start="url(#arrow-slate)"/>
+<path d="M330 565H155V400" fill="none" stroke="#a78bfa" stroke-width="1.6" stroke-dasharray="6 4" marker-end="url(#arrow-violet)"/>
+<rect x="60" y="300" width="190" height="100" rx="10" fill="#0f172a"/>
+<rect x="60" y="300" width="190" height="100" rx="10" fill="#083344" fill-opacity="0.65" stroke="#22d3ee" stroke-width="1.5"/>
+<text x="155.0" y="330" class="node" text-anchor="middle">bab SITE …</text>
+<text x="155.0" y="354" class="detail" text-anchor="middle">dispatch + local policy</text>
+<rect x="330" y="200" width="190" height="100" rx="10" fill="#0f172a"/>
+<rect x="330" y="200" width="190" height="100" rx="10" fill="#064e3b" fill-opacity="0.65" stroke="#34d399" stroke-width="1.5"/>
+<text x="425.0" y="230" class="node" text-anchor="middle">Page runner</text>
+<text x="425.0" y="254" class="detail" text-anchor="middle">plugin-owned JavaScript</text>
+<text x="425.0" y="273" class="detail" text-anchor="middle">browser-v1</text>
+<rect x="630" y="200" width="160" height="100" rx="10" fill="#0f172a"/>
+<rect x="630" y="200" width="160" height="100" rx="10" fill="#78350f" fill-opacity="0.65" stroke="#fbbf24" stroke-width="1.5"/>
+<text x="710.0" y="230" class="node" text-anchor="middle">BAB Native Host</text>
+<text x="710.0" y="254" class="detail" text-anchor="middle">validate site scope</text>
+<rect x="890" y="200" width="230" height="100" rx="10" fill="#0f172a"/>
+<rect x="890" y="200" width="230" height="100" rx="10" fill="#083344" fill-opacity="0.65" stroke="#22d3ee" stroke-width="1.5"/>
+<text x="1005.0" y="230" class="node" text-anchor="middle">Page executor</text>
+<text x="1005.0" y="254" class="detail" text-anchor="middle">origin checks + leases</text>
+<text x="1005.0" y="273" class="detail" text-anchor="middle">eval in signed-in page</text>
+<rect x="1230" y="200" width="220" height="100" rx="10" fill="#0f172a"/>
+<rect x="1230" y="200" width="220" height="100" rx="10" fill="#1e293b" fill-opacity="0.65" stroke="#94a3b8" stroke-width="1.5"/>
+<text x="1340.0" y="230" class="node" text-anchor="middle">Signed-in website</text>
+<text x="1340.0" y="254" class="detail" text-anchor="middle">fetch / JSON results</text>
+<rect x="330" y="390" width="190" height="100" rx="10" fill="#0f172a"/>
+<rect x="330" y="390" width="190" height="100" rx="10" fill="#064e3b" fill-opacity="0.65" stroke="#34d399" stroke-width="1.5"/>
+<text x="425.0" y="420" class="node" text-anchor="middle">Independent CLI</text>
+<text x="425.0" y="444" class="detail" text-anchor="middle">plugin business logic</text>
+<text x="425.0" y="463" class="detail" text-anchor="middle">BAB Go SDK</text>
+<rect x="630" y="390" width="160" height="100" rx="10" fill="#0f172a"/>
+<rect x="630" y="390" width="160" height="100" rx="10" fill="#78350f" fill-opacity="0.65" stroke="#fbbf24" stroke-width="1.5"/>
+<text x="710.0" y="420" class="node" text-anchor="middle">CLI Native Host</text>
+<text x="710.0" y="444" class="detail" text-anchor="middle">validate full endpoint</text>
+<rect x="890" y="390" width="230" height="100" rx="10" fill="#0f172a"/>
+<rect x="890" y="390" width="230" height="100" rx="10" fill="#064e3b" fill-opacity="0.65" stroke="#34d399" stroke-width="1.5"/>
+<text x="1005.0" y="420" class="node" text-anchor="middle">Plugin protocol adapter</text>
+<text x="1005.0" y="444" class="detail" text-anchor="middle">plugin-packaged scripts</text>
+<text x="1005.0" y="463" class="detail" text-anchor="middle">browser-side protocol</text>
+<rect x="1230" y="390" width="220" height="100" rx="10" fill="#0f172a"/>
+<rect x="1230" y="390" width="220" height="100" rx="10" fill="#1e293b" fill-opacity="0.65" stroke="#94a3b8" stroke-width="1.5"/>
+<text x="1340.0" y="420" class="node" text-anchor="middle">Terminal service</text>
+<text x="1340.0" y="444" class="detail" text-anchor="middle">WebSocket / PTY</text>
+<rect x="330" y="535" width="460" height="65" rx="10" fill="#0f172a"/>
+<rect x="330" y="535" width="460" height="65" rx="10" fill="#4c1d95" fill-opacity="0.65" stroke="#a78bfa" stroke-width="1.5"/>
+<text x="560.0" y="565" class="node" text-anchor="middle">Local registry + configuration</text>
+<text x="560.0" y="589" class="detail" text-anchor="middle">manifests · origins · enabled state · installed snapshots</text>
+<text x="330" y="179" class="lane" text-anchor="start">BROWSER-SCRIPT PATH</text>
+<text x="330" y="369" class="lane" text-anchor="start">EXTERNAL-CLI PATH</text>
+<rect x="800" y="208" width="80" height="36" rx="4" fill="#0f172a"/>
+<text x="575" y="230" class="edge" text-anchor="middle">Unix socket</text>
+<text x="840" y="224" class="edge" text-anchor="middle">Native</text>
+<text x="840" y="240" class="edge" text-anchor="middle">Messaging</text>
+<rect x="800" y="398" width="80" height="36" rx="4" fill="#0f172a"/>
+<text x="575" y="420" class="edge" text-anchor="middle">Unix socket</text>
+<text x="840" y="414" class="edge" text-anchor="middle">Native</text>
+<text x="840" y="430" class="edge" text-anchor="middle">Messaging</text>
+<rect x="1147" y="212" width="66" height="23" rx="4" fill="#0f172a"/><rect x="1147" y="402" width="66" height="23" rx="4" fill="#0f172a"/>
+<text x="1175" y="230" class="edge" text-anchor="middle">HTTPS</text>
+<text x="1175" y="420" class="edge" text-anchor="middle">WSS</text>
+<text x="245" y="548" class="edge" text-anchor="middle">read metadata</text>
+<circle cx="50" cy="674" r="5" fill="#22d3ee"/>
+<text x="66" y="679" class="legend" text-anchor="start">BAB core: transport, policy and cleanup</text>
+<circle cx="560" cy="674" r="5" fill="#34d399"/>
+<text x="576" y="679" class="legend" text-anchor="start">Plugin: commands, parsing and protocol</text>
+<circle cx="1060" cy="674" r="5" fill="#a78bfa"/>
+<text x="1076" y="679" class="legend" text-anchor="start">Login session stays in Chrome</text>
+<text x="40" y="726" class="note" text-anchor="start">Arrows carry requests and results. Trusted plugins have account authority; grouping is not a security sandbox.</text>
+<text x="40" y="48" class="title" text-anchor="start">Browser Auth Bridge architecture</text>
+<text x="40" y="78" class="subtitle" text-anchor="start">Two plugin paths. One browser-owned login.</text>
+</svg>
