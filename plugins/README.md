@@ -8,6 +8,7 @@ Plugins are optional; none are installed by default.
 
 | Plugin | Purpose | Usage |
 | --- | --- | --- |
+| AkkoCloud | Read service traffic and provider-reported reset dates | [English](builtin/akkocloud/README.md) · [简体中文](builtin/akkocloud/README.zh-CN.md) |
 | TJUPT | Search releases and fetch torrent metadata | [English](builtin/tjupt/README.md) · [简体中文](builtin/tjupt/README.zh-CN.md) |
 | ttyd | Connect to your own terminal deployment | [English](builtin/ttyd/README.md) · [简体中文](builtin/ttyd/README.zh-CN.md) |
 

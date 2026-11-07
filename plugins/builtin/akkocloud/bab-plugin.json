@@ -1,0 +1,19 @@
+{
+  "version": 1,
+  "site": "akkocloud",
+  "origin": "https://www.akkocloud.com",
+  "description": "Read-only AkkoCloud service traffic using browser login",
+  "commands": {
+    "whoami": {
+      "description": "Check AkkoCloud login without returning account credentials",
+      "access": "read",
+      "script": "whoami.js"
+    },
+    "traffic": {
+      "description": "Read service traffic and provider-reported reset dates",
+      "access": "read",
+      "script": "traffic.js",
+      "options": [{"name": "service-id"}]
+    }
+  }
+}

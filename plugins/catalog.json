@@ -2,6 +2,11 @@
   "version": 1,
   "plugins": [
     {
+      "name": "akkocloud",
+      "description": "Read-only AkkoCloud service traffic using browser login",
+      "path": "builtin/akkocloud"
+    },
+    {
       "name": "tjupt",
       "description": "TJUPT search, release details and torrent metadata",
       "path": "builtin/tjupt"

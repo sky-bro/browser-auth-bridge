@@ -8,6 +8,7 @@
 
 | 插件 | 用途 | 使用文档 |
 | --- | --- | --- |
+| AkkoCloud | 只读查询服务流量和服务商明确的重置时间 | [English](builtin/akkocloud/README.md) · [简体中文](builtin/akkocloud/README.zh-CN.md) |
 | TJUPT | 搜索资源、获取种子元数据 | [中文](builtin/tjupt/README.zh-CN.md) · [English](builtin/tjupt/README.md) |
 | ttyd | 连接自己的终端服务 | [中文](builtin/ttyd/README.zh-CN.md) · [English](builtin/ttyd/README.md) |
 
