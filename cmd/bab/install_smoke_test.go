@@ -62,6 +62,21 @@ func TestFreshInstallLifecycleBuildsOnlySelectedComponents(t *testing.T) {
 	}
 	captureList(t, "plugin", "update", "tjupt")
 	captureList(t, "plugin", "remove", "tjupt")
+	captureList(t, "plugin", "install", "akkocloud")
+	akko, err := find("akkocloud")
+	if err != nil || akko.Origin != "https://www.akkocloud.com" {
+		t.Fatal("bundled AkkoCloud install failed", err)
+	}
+	for _, name := range []string{"whoami", "traffic"} {
+		if script, err := akko.Script(name); err != nil || script == "" {
+			t.Fatal("AkkoCloud command missing", name, err)
+		}
+	}
+	if help := captureList(t, "akkocloud", "traffic", "--help"); !strings.Contains(help, "service-id") {
+		t.Fatal("installed AkkoCloud command not discovered", help)
+	}
+	captureList(t, "plugin", "update", "akkocloud")
+	captureList(t, "plugin", "remove", "akkocloud")
 	afterPageInstall, err := os.Stat(directory)
 	if err != nil || !os.SameFile(beforePageInstall, afterPageInstall) {
 		t.Fatal("page-only lifecycle rebuilt the extension", err)

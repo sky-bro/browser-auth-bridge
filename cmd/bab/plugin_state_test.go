@@ -89,7 +89,7 @@ func TestAvailableHasHumanAndJSONViews(t *testing.T) {
 		t.Fatal("catalog is not a CLI table", human)
 	}
 	var rows []map[string]any
-	if err := json.Unmarshal([]byte(captureList(t, "plugin", "available", "--json")), &rows); err != nil || len(rows) != 2 {
+	if err := json.Unmarshal([]byte(captureList(t, "plugin", "available", "--json")), &rows); err != nil || len(rows) != 3 {
 		t.Fatal("JSON catalog changed", err)
 	}
 	for _, row := range rows {

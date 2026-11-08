@@ -12,10 +12,10 @@ func TestPublicCatalogIsOptInAndDeploymentIndependent(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	if len(entries) != 2 || entries[0].Name != "tjupt" || entries[0].OriginRequired || entries[1].Name != "ttyd" || !entries[1].OriginRequired {
+	if len(entries) != 3 || entries[0].Name != "akkocloud" || entries[0].OriginRequired || entries[1].Name != "tjupt" || entries[1].OriginRequired || entries[2].Name != "ttyd" || !entries[2].OriginRequired {
 		t.Fatal("unexpected distributed catalog", entries)
 	}
-	source, cleanup, err := MaterializeBuiltin(entries[1])
+	source, cleanup, err := MaterializeBuiltin(entries[2])
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -96,5 +96,30 @@ func TestBundledPagePluginMaterializesAndInstallsEveryCommand(t *testing.T) {
 	}
 	if !p.Commands["torrent"].Artifact {
 		t.Fatal("torrent command lost protected artifact output")
+	}
+}
+
+func TestBundledAkkoCloudInstallsOnlyReadOnlyPageCommands(t *testing.T) {
+	entry, err := ResolveSource("akkocloud", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	source, cleanup, err := MaterializeBuiltin(entry)
+	if err != nil {
+		t.Fatal(err)
+	}
+	defer cleanup()
+	p, err := Install(t.TempDir(), source, false)
+	if err != nil || p.Origin != "https://www.akkocloud.com" || p.Delegate != nil || p.Extension != nil || len(p.Commands) != 2 {
+		t.Fatal("unexpected AkkoCloud installation", err)
+	}
+	for _, name := range []string{"whoami", "traffic"} {
+		command, ok := p.Commands[name]
+		if !ok || command.Access != "read" || command.Artifact {
+			t.Fatal("unexpected command authority", name)
+		}
+		if script, err := p.Script(name); err != nil || script == "" {
+			t.Fatal("missing installed script", name, err)
+		}
 	}
 }
