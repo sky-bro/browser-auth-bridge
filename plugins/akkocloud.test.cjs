@@ -70,6 +70,15 @@ test('IEC units differ from SI and ambiguous bare G is never converted', async (
   assert.equal(ambiguous.value.services[0].traffic.limit_bytes, null);
   assert.deepEqual(ambiguous.value.services[0].warnings, ['traffic_unavailable']);
 });
+test('unsupported numeric formats and bit units stay unknown instead of matching a suffix', async () => {
+  for (const value of ['1,5 GB', '-5 GB', '+5 GB', '500 Gb']) {
+    const result = await run({}, {detail: document([row('流量统计', value + ' 已用 500 GB 总量')])});
+    assert.equal(result.value.services[0].traffic.used_bytes, null, value);
+    assert.deepEqual(result.value.services[0].warnings, ['traffic_unavailable']);
+  }
+  const grouped = await run({}, {detail: document([row('流量统计', '1,234.5 MB 已用 500 GB 总量')])});
+  assert.equal(grouped.value.services[0].traffic.used_bytes, 1234500000);
+});
 test('invalid ids fail before any browser request and ids must belong to list', async () => {
   for (const id of ['../private', '123&modop=custom&a=reboot', '0', '-1']) {
     const r = await run({'service-id': id});
@@ -109,6 +118,13 @@ test('only explicit traffic dates with timezone become normalized timestamps', a
   const nozone = await run({}, {detail: document([row('Next Traffic Reset', '2026-11-17')])});
   assert.equal(nozone.value.services[0].traffic.reset_at, null);
   assert.equal(nozone.value.services[0].traffic.raw_reset, '2026-11-17');
+});
+test('invalid provider calendar dates are not normalized into a different reset date', async () => {
+  for (const date of ['2026-02-30T00:00:00+08:00', '2026-11-17T24:00:00+08:00']) {
+    const result = await run({}, {detail: document([row('Next Traffic Reset', date)])});
+    assert.equal(result.value.services[0].traffic.reset_at, null);
+    assert.equal(result.value.services[0].traffic.raw_reset, date);
+  }
 });
 test('service selection does not fetch or return unrelated details', async () => {
   const result = await run({'service-id': '123'}, {list: document([serviceRow('123'), serviceRow('456')])});

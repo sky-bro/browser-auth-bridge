@@ -33,7 +33,9 @@ def main():
             raise RuntimeError('fresh registry contains unsolicited plugins')
         catalog = json.loads(run([binary, 'plugin', 'available', '--json']))
         by_name = {entry['name']: entry for entry in catalog}
-        if set(by_name) != {'ttyd', 'tjupt'} or not by_name['ttyd']['originRequired'] or by_name['tjupt']['originRequired']:
+        if (set(by_name) != {'akkocloud', 'ttyd', 'tjupt'} or
+                not by_name['ttyd']['originRequired'] or
+                by_name['tjupt']['originRequired'] or by_name['akkocloud']['originRequired']):
             raise RuntimeError('unexpected distributed source catalog')
         if any(entry['installed'] for entry in catalog):
             raise RuntimeError('optional example was installed by default')

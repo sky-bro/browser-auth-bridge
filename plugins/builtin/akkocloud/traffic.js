@@ -10,7 +10,7 @@ const error = code => ({error: {code}});
 
 function amount(text) {
   const raw = normalize(text);
-  const m = raw.match(/^(\d+(?:,\d{3})*(?:\.\d+)?)\s*(B|[KMGTPE]i?B)$/i);
+  const m = raw.match(/^(\d+(?:,\d{3})*(?:\.\d+)?)\s*(B|[kKmMgGtTpPeE][iI]?B)$/);
   if (!m) return {bytes: null, raw: raw || null, unit: null};
   const unit = m[2].toUpperCase();
   const index = 'BKMGTPE'.indexOf(unit[0]);
@@ -20,7 +20,9 @@ function amount(text) {
 }
 
 function valueBefore(text, label) {
-  const match = text.match(new RegExp('(\\d+(?:,\\d{3})*(?:\\.\\d+)?\\s*(?:[KMGTPE]i?B|B))\\s*' + label, 'i'));
+  // Do not turn an unsupported decimal comma or negative amount into a smaller
+  // positive suffix (for example, "1,5 GB" must not become "5 GB").
+  const match = text.match(new RegExp('(?:^|[^\\d.,+\\-])(\\d+(?:,\\d{3})*(?:\\.\\d+)?\\s*(?:[KMGTPE]i?B|B))\\s*' + label, 'i'));
   return amount(match ? match[1] : '');
 }
 
@@ -32,7 +34,11 @@ function explicitDate(doc, pattern) {
     if (cells.length < 2 || !pattern.test(normalize(cells[0].textContent))) continue;
     const raw = normalize(cells[1].textContent);
     const m = raw.match(/\b\d{4}-\d{2}-\d{2}T\d{2}:\d{2}(?::\d{2}(?:\.\d+)?)?(?:Z|[+-]\d{2}:\d{2})\b/);
-    if (m && Number.isFinite(Date.parse(m[0]))) return {raw, at: new Date(m[0]).toISOString()};
+    const day = m && new Date(m[0].slice(0, 10) + 'T00:00:00Z');
+    if (m && Number.isFinite(Date.parse(m[0])) && Number.isFinite(day.getTime()) &&
+        day.toISOString().slice(0, 10) === m[0].slice(0, 10) && Number(m[0].slice(11, 13)) < 24) {
+      return {raw, at: new Date(m[0]).toISOString()};
+    }
     return {raw: raw || null, at: null};
   }
   return {raw: null, at: null};
