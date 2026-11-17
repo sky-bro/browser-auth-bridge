@@ -22,6 +22,11 @@ func TestBrowserCommandScope(t *testing.T) {
 	if _, err := DecodeBrowserCommand(raw, origin); err != nil {
 		t.Fatal(err)
 	}
+	open.Match = "fresh"
+	raw, _ = json.Marshal(open)
+	if _, err := DecodeBrowserCommand(raw, origin); err != nil {
+		t.Fatal(err)
+	}
 	open.Match = "anything"
 	raw, _ = json.Marshal(open)
 	if _, err := DecodeBrowserCommand(raw, origin); err == nil {

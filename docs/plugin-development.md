@@ -309,3 +309,13 @@ plugins if explicitly revoked; plugin-scoped stopping does not revoke that grant
 Offline state changes are saved locally and applied when the extension reconnects.
 CLI tables expose state; `list --json` includes `disabled` when true and
 `available --json` exposes installed/enabled flags. Completion never runs plugins.
+
+### Isolated command pages
+
+A browser command may set `"isolated_page": true` in its manifest. BAB then opens
+a new inactive page on the already authorized origin, uses the existing browser
+login, and closes only that owned page when the command ends. This avoids reusing
+a user tab whose debugger cannot be attached. The default remains same-origin
+page reuse. Fresh-page requests still require permission to create a tab; they
+do not grant host permissions or retry scripts after an unknown outcome. Update
+both the BAB CLI/Native Host and the extension before enabling this option.

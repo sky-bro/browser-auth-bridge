@@ -26,12 +26,13 @@ type Argument struct {
 	Choices  []string `json:"choices,omitempty"`
 }
 type Command struct {
-	Description string     `json:"description"`
-	Script      string     `json:"script"`
-	Access      string     `json:"access"`
-	Positional  []Argument `json:"positional,omitempty"`
-	Options     []Argument `json:"options,omitempty"`
-	Artifact    bool       `json:"artifact,omitempty"`
+	Description  string     `json:"description"`
+	Script       string     `json:"script"`
+	Access       string     `json:"access"`
+	Positional   []Argument `json:"positional,omitempty"`
+	Options      []Argument `json:"options,omitempty"`
+	Artifact     bool       `json:"artifact,omitempty"`
+	IsolatedPage bool       `json:"isolated_page,omitempty"`
 }
 
 // Delegate registers an existing local CLI under a BAB site namespace.

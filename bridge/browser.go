@@ -52,7 +52,7 @@ func DecodeBrowserCommand(raw json.RawMessage, origin string) (BrowserCommand, e
 	case "open":
 		u, err := url.Parse(cmd.URL)
 		if err != nil || u.Scheme+"://"+u.Host != origin || u.User != nil || len(cmd.URL) > 8192 ||
-			(cmd.Match != "" && cmd.Match != "origin") || cmd.Script != "" || len(cmd.Args) > 0 {
+			(cmd.Match != "" && cmd.Match != "origin" && cmd.Match != "fresh") || cmd.Script != "" || len(cmd.Args) > 0 {
 			return cmd, fmt.Errorf("browser navigation denied")
 		}
 	case "eval":

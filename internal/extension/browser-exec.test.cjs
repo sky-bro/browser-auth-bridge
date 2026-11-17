@@ -107,3 +107,10 @@ test('a lost owned page can be replaced without retaining cancellation from its 
  s.tabs.clear();await s.api.execute(command('open',{url:origin+'/product'}),origin,true);
  assert.equal(s.tabs.size,1);
 });
+
+ test('fresh mode owns a new tab and leaves an existing user page untouched',async()=>{
+ const s=setup({existing:true});const opened=await s.api.execute(command('open',{url:origin+'/product',match:'fresh'}),origin,true);
+ assert.notEqual(opened.tabId,1);assert.equal(opened.owned,true);assert.equal(s.tabs.size,2);
+ await s.api.execute(command('close'),origin,false);assert.equal(s.tabs.size,1);assert.equal(s.tabs.get(1).url,origin+'/product');
+ const denied=setup({existing:true});await assert.rejects(denied.api.execute(command('open',{url:origin+'/product',match:'fresh'}),origin,false),/page_required/);assert.equal(denied.tabs.size,1);
+ });
