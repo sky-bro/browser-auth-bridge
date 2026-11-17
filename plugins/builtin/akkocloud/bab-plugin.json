@@ -7,13 +7,19 @@
     "whoami": {
       "description": "Check AkkoCloud login without returning account credentials",
       "access": "read",
-      "script": "whoami.js"
+      "script": "whoami.js",
+      "isolated_page": true
     },
     "traffic": {
       "description": "Read service traffic and provider-reported reset dates",
       "access": "read",
       "script": "traffic.js",
-      "options": [{"name": "service-id"}]
+      "options": [
+        {
+          "name": "service-id"
+        }
+      ],
+      "isolated_page": true
     }
   }
 }

@@ -174,3 +174,26 @@ func TestDelegatePreservesArgumentsAndExitStatus(t *testing.T) {
 		t.Fatal("arguments passed through a shell")
 	}
 }
+
+func TestIsolatedCommandRequestsFreshPageAndCleansUp(t *testing.T) {
+	p := installed(t, false)
+	c := p.Commands["run"]
+	c.IsolatedPage = true
+	p.Commands["run"] = c
+	opened, closed := false, false
+	broker(t, func(c bridge.BrowserCommand) any {
+		if c.Action == "open" {
+			opened = c.Match == "fresh"
+		}
+		if c.Action == "close" {
+			closed = true
+		}
+		return map[string]any{"ok": true}
+	})
+	if err := execute(p, "run", map[string]string{}, ""); err != nil {
+		t.Fatal(err)
+	}
+	if !opened || !closed {
+		t.Fatal("isolated page lifecycle was not preserved")
+	}
+}

@@ -13,7 +13,7 @@
         !["open", "eval", "close"].includes(p.action) ||
         Object.keys(p).some(k => !["version","origin","browserSession","action","url","match","script","args"].includes(k))) return false;
     if (p.action === "open") return typeof p.url === "string" && p.url.length <= 8192 && originOf(p.url) === allowedOrigin &&
-      (p.match === undefined || p.match === "origin") && !p.script && p.args === undefined && !new URL(p.url).username && !new URL(p.url).password;
+      (p.match === undefined || p.match === "origin" || p.match === "fresh") && !p.script && p.args === undefined && !new URL(p.url).username && !new URL(p.url).password;
     if (p.action === "eval") return typeof p.script === "string" && p.script.length > 0 && p.script.length <= 256*1024 && !p.url && p.match === undefined && (!p.args || typeof p.args === "object");
     return !p.url && p.match === undefined && !p.script && p.args === undefined;
   }
@@ -74,7 +74,7 @@
           if (!lease) {
             const tabs=await chrome.tabs.query({url:pattern(allowedOrigin)});
             if (!running()) throw new Error("browser_canceled");
-            const tab=tabs.find(t=>(p.match === "origin" ? originOf(t.url) === allowedOrigin : t.url === p.url) && !reservations.has(t.id));
+            const tab=p.match === "fresh" ? undefined : tabs.find(t=>(p.match === "origin" ? originOf(t.url) === allowedOrigin : t.url === p.url) && !reservations.has(t.id));
             if (tab) {
               lease={tabId:tab.id,origin:allowedOrigin,owner,owned:false,lastUsed:Date.now()};
               reservations.set(tab.id,key);leases.set(key,lease);
@@ -89,7 +89,7 @@
           }
           leaseRef=lease;
           await authorized(allowedOrigin);
-          await ready(lease.tabId,allowedOrigin,running,p.match === "origin" ? undefined : p.url);
+          await ready(lease.tabId,allowedOrigin,running,["origin","fresh"].includes(p.match) ? undefined : p.url);
           lease.lastUsed=Date.now();
           return {version:1,tabId:lease.tabId,owned:lease.owned};
         }

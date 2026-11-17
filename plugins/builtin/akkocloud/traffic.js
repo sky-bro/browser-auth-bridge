@@ -81,12 +81,17 @@ async function page(path) {
   return loginPage(doc) ? {error: 'login_required'} : {doc};
 }
 
-const list = await page('/clientarea.php?action=services');
+const list = await page('/clientarea.php?action=products');
 if (list.error) return error(list.error);
 if (!list.doc.querySelector('a[href*="logout.php"],a[href*="action=productdetails"]')) return error('unexpected_page');
 const services = new Map();
 for (const row of list.doc.querySelectorAll('tr')) {
   const links = [...row.querySelectorAll('a[href*="action=productdetails"]')];
+  // WHMCS products can expose the detail URL only in a quoted row handler.
+  // Extract a canonical URL as data; never execute the handler or control code.
+  const handler = row.getAttribute?.('onclick') || '';
+  const match = handler.match(/['"]((?:\/)?clientarea\.php\?action=productdetails&(?:amp;)?id=[1-9]\d*)['"]/);
+  if (match) links.push({getAttribute: () => match[1].replace('&amp;', '&')});
   let id = null;
   for (const link of links) {
     let url;

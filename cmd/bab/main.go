@@ -477,6 +477,9 @@ func execute(p plugins.Plugin, name string, args map[string]string, output strin
 		return e
 	}
 	cmd := bridge.BrowserCommand{Version: 1, Origin: p.Origin, BrowserSession: id, Action: "open", URL: p.Origin + "/", Match: "origin"}
+	if p.Commands[name].IsolatedPage {
+		cmd.Match = "fresh"
+	}
 	if _, e = bridge.ExecuteBrowser(ctx, namespace, p.Site, cmd, validate, bridge.BrowserOptions{AllowTab: true}); e != nil {
 		return e
 	}

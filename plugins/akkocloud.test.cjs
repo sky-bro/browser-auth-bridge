@@ -43,7 +43,7 @@ async function run(args = {}, options = {}, command = 'traffic') {
 
 test('actual module layout projects only service traffic and preserves displayed units', async () => {
   const {value, requests} = await run();
-  assert.deepEqual(requests, ['/clientarea.php?action=services', '/clientarea.php?action=productdetails&id=123']);
+  assert.deepEqual(requests, ['/clientarea.php?action=products', '/clientarea.php?action=productdetails&id=123']);
   assert.equal(value.schema_version, 1);
   assert.equal(value.provider, 'akkocloud');
   assert.ok(Number.isFinite(Date.parse(value.fetched_at)));
@@ -87,12 +87,12 @@ test('invalid ids fail before any browser request and ids must belong to list', 
   }
   const unknown = await run({'service-id': '999'});
   assert.equal(unknown.value.error.code, 'service_not_found');
-  assert.deepEqual(unknown.requests, ['/clientarea.php?action=services']);
+  assert.deepEqual(unknown.requests, ['/clientarea.php?action=products']);
 });
 test('cross-origin and lookalike service links never become detail requests', async () => {
   const result = await run({}, {list: document([serviceRow('789', 'https://other.example.test')])});
   assert.deepEqual(result.value.services, []);
-  assert.deepEqual(result.requests, ['/clientarea.php?action=services']);
+  assert.deepEqual(result.requests, ['/clientarea.php?action=products']);
 });
 test('login expiry and unexpected pages do not return account page contents', async () => {
   const login = await run({}, {list: document([], {login: true, auth: false})});
@@ -134,4 +134,12 @@ test('service selection does not fetch or return unrelated details', async () =>
 test('HTTP failures return a bounded error without raw response text', async () => {
   const result = await run({}, {ok: false});
   assert.deepEqual(result.value, {error: {code: 'http_error'}});
+});
+
+test('products rows with canonical quoted handlers are read without executing the handler', async()=>{
+ const item=serviceRow('123');item.querySelectorAll=selector=>selector.startsWith('a[')?[]:selector==='td'?[cell(''),cell('Fixture VPS'),cell(''),cell(''),cell('Active')]:[];
+ item.getAttribute=name=>name==='onclick'?"clickableSafeRedirect(event, 'clientarea.php?action=productdetails&id=123', false)":null;
+ const result=await run({'service-id':'123'},{list:document([item])});
+ assert.equal(result.value.services[0].id,'123');assert.equal(result.value.services[0].traffic.used_bytes,500290000000);
+ assert.deepEqual(result.requests,['/clientarea.php?action=products','/clientarea.php?action=productdetails&id=123']);
 });
